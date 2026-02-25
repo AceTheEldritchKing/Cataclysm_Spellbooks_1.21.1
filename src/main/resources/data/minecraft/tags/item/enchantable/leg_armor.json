@@ -3,6 +3,10 @@
   "values": [
     "cataclysm_spellbooks:ignis_leggings",
     "cataclysm_spellbooks:abyssal_warlock_leggings",
-    "cataclysm_spellbooks:cursium_mage_skirt"
+    "cataclysm_spellbooks:cursium_mage_skirt",
+    "cataclysm_spellbooks:pharaoh_leggings",
+    "cataclysm_spellbooks:bloom_stone_skirt",
+    "cataclysm_spellbooks:engineer_leggings",
+    "cataclysm_spellbooks:excelsius_leggings"
   ]
 }

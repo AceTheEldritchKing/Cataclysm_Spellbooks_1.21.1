@@ -21,7 +21,7 @@ public class CSCreativeModeTabs {
                         // Materials
                         output.accept(ItemRegistries.ABYSSAL_RUNE.get());
                         output.accept(ItemRegistries.ABYSSAL_UPGRADE_ORB.get());
-                        output.accept(ItemRegistries.TECHNOMANCY_UPGRADE_ORB.get());
+                        //output.accept(ItemRegistries.TECHNOMANCY_UPGRADE_ORB.get());
                         // Curios
                         output.accept(ItemRegistries.LEVIATHANS_BLESSING.get());
                         // Spellbooks

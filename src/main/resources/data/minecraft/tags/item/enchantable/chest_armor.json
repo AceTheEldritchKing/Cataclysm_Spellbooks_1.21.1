@@ -5,6 +5,12 @@
     "cataclysm_spellbooks:ignis_chestplate_elytra",
     "cataclysm_spellbooks:abyssal_warlock_chestplate",
     "cataclysm_spellbooks:cursium_mage_chestplate",
-    "cataclysm_spellbooks:cursium_mage_elytra"
+    "cataclysm_spellbooks:cursium_mage_elytra",
+    "cataclysm_spellbooks:pharaoh_chestplate",
+    "cataclysm_spellbooks:bloom_stone_chestplate",
+    "cataclysm_spellbooks:engineer_suit",
+    "cataclysm_spellbooks:excelsius_speed_chestplate",
+    "cataclysm_spellbooks:excelsius_power_chestplate",
+    "cataclysm_spellbooks:excelsius_resist_chestplate"
   ]
 }

@@ -7,6 +7,7 @@ import io.redspace.ironsspellbooks.api.registry.SpellDataRegistryHolder;
 import io.redspace.ironsspellbooks.api.registry.SpellRegistry;
 import io.redspace.ironsspellbooks.item.UniqueItem;
 import io.redspace.ironsspellbooks.registries.ComponentRegistry;
+import io.redspace.ironsspellbooks.render.CinderousRarity;
 import io.redspace.ironsspellbooks.util.ItemPropertiesHelper;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
@@ -22,7 +23,7 @@ public class HellfireForgeItem extends MagicSwordItem implements UniqueItem {
     public HellfireForgeItem() {
         super(
                 CSWeaponTiers.HELLFIRE_FORGE,
-                ItemPropertiesHelper.equipment().fireResistant().rarity(Rarity.EPIC).attributes(ExtendedSwordItem.createAttributes(CSWeaponTiers.HELLFIRE_FORGE)).component(ComponentRegistry.CASTING_IMPLEMENT, Unit.INSTANCE),
+                ItemPropertiesHelper.equipment().fireResistant().rarity(CinderousRarity.CINDEROUS_RARITY_PROXY.getValue()).attributes(ExtendedSwordItem.createAttributes(CSWeaponTiers.HELLFIRE_FORGE)).component(ComponentRegistry.CASTING_IMPLEMENT, Unit.INSTANCE),
                 SpellDataRegistryHolder.of(
                         new SpellDataRegistryHolder(SpellRegistry.RAISE_HELL_SPELL, 4)
                 )

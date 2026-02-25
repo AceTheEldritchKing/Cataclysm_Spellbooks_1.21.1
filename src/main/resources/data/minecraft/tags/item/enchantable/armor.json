@@ -19,6 +19,27 @@
     "cataclysm_spellbooks:ignis_chestplate_elytra",
     "cataclysm_spellbooks:abyssal_warlock_chestplate",
     "cataclysm_spellbooks:cursium_mage_chestplate",
-    "cataclysm_spellbooks:cursium_mage_elytra"
+    "cataclysm_spellbooks:cursium_mage_elytra",
+    "cataclysm_spellbooks:pharaoh_helmet",
+    "cataclysm_spellbooks:pharaoh_chestplate",
+    "cataclysm_spellbooks:pharaoh_leggings",
+    "cataclysm_spellbooks:pharaoh_greaves",
+    "cataclysm_spellbooks:bloom_stone_hat",
+    "cataclysm_spellbooks:bloom_stone_chestplate",
+    "cataclysm_spellbooks:bloom_stone_skirt",
+    "cataclysm_spellbooks:bloom_stone_greaves",
+    "cataclysm_spellbooks:monstrous_wizard_hat",
+    "cataclysm_spellbooks:engineer_hood",
+    "cataclysm_spellbooks:engineer_suit",
+    "cataclysm_spellbooks:engineer_leggings",
+    "cataclysm_spellbooks:engineer_boots",
+    "cataclysm_spellbooks:excelsius_speed_visors",
+    "cataclysm_spellbooks:excelsius_speed_chestplate",
+    "cataclysm_spellbooks:excelsius_power_visors",
+    "cataclysm_spellbooks:excelsius_power_chestplate",
+    "cataclysm_spellbooks:excelsius_resist_visors",
+    "cataclysm_spellbooks:excelsius_resist_chestplate",
+    "cataclysm_spellbooks:excelsius_leggings",
+    "cataclysm_spellbooks:excelsius_greaves"
   ]
 }

@@ -144,8 +144,8 @@ public class ItemRegistries {
     public static final DeferredHolder<Item, Item> ABYSSAL_UPGRADE_ORB = ITEMS.register("abyssal_upgrade_orb",
             () -> new UpgradeOrbItem(ItemPropertiesHelper.material().rarity(Rarity.UNCOMMON).component(ComponentRegistry.UPGRADE_ORB_TYPE, CSUpgradeOrbTypeRegistry.ABYSSAL_SPELL_POWER)));
 
-    public static final DeferredHolder<Item, Item> TECHNOMANCY_UPGRADE_ORB = ITEMS.register("technomancy_upgrade_orb",
-            () -> new UpgradeOrbItem(ItemPropertiesHelper.material().rarity(Rarity.UNCOMMON).component(ComponentRegistry.UPGRADE_ORB_TYPE, CSUpgradeOrbTypeRegistry.TECHNOMANCY_SPELL_POWER)));
+    //public static final DeferredHolder<Item, Item> TECHNOMANCY_UPGRADE_ORB = ITEMS.register("technomancy_upgrade_orb",
+            //() -> new UpgradeOrbItem(ItemPropertiesHelper.material().rarity(Rarity.UNCOMMON).component(ComponentRegistry.UPGRADE_ORB_TYPE, CSUpgradeOrbTypeRegistry.TECHNOMANCY_SPELL_POWER)));
 
     /***
      * Curios
@@ -227,6 +227,10 @@ public class ItemRegistries {
             () -> new ExcelsiusLegArmorItem(ArmorItem.Type.LEGGINGS, ItemPropertiesHelper.equipment(1).component(DataComponents.UNBREAKABLE, new Unbreakable(false)).fireResistant().durability(ArmorItem.Type.LEGGINGS.getDurability(40))));
     public static final DeferredHolder<Item, Item> EXCELSIUS_WARLOCK_BOOTS = ITEMS.register("excelsius_greaves",
             () -> new ExcelsiusLegArmorItem(ArmorItem.Type.BOOTS, ItemPropertiesHelper.equipment(1).component(DataComponents.UNBREAKABLE, new Unbreakable(false)).fireResistant().durability(ArmorItem.Type.BOOTS.getDurability(40))));
+
+    // Nemesis Mage Set
+
+    // Oblivion Mage Set
 
 
     public static Collection<DeferredHolder<Item, ? extends Item>> getCSItems()

@@ -3,6 +3,10 @@
   "values": [
     "cataclysm_spellbooks:ignis_boots",
     "cataclysm_spellbooks:abyssal_warlock_boots",
-    "cataclysm_spellbooks:cursium_mage_boots"
+    "cataclysm_spellbooks:cursium_mage_boots",
+    "cataclysm_spellbooks:pharaoh_greaves",
+    "cataclysm_spellbooks:bloom_stone_greaves",
+    "cataclysm_spellbooks:engineer_boots",
+    "cataclysm_spellbooks:excelsius_greaves"
   ]
 }
