@@ -24,7 +24,6 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import java.util.List;
 import java.util.Optional;
 
-@AutoSpellConfig
 public class IncinerationSpell extends AbstractIgnisSpell {
     private final ResourceLocation spellId = ResourceLocation.fromNamespaceAndPath(CataclysmSpellbooks.MOD_ID, "incineration");
 

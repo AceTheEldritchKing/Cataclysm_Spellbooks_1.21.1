@@ -1,16 +1,22 @@
 package net.acetheeldritchking.cataclysm_spellbooks.spells.ice;
 
+import com.github.L_Ender.cataclysm.entity.effect.ScreenShake_Entity;
 import com.github.L_Ender.cataclysm.init.ModItems;
+import com.github.L_Ender.cataclysm.init.ModParticle;
 import com.github.L_Ender.cataclysm.init.ModSounds;
 import io.redspace.ironsspellbooks.api.config.DefaultConfig;
 import io.redspace.ironsspellbooks.api.magic.MagicData;
 import io.redspace.ironsspellbooks.api.registry.SchoolRegistry;
-import io.redspace.ironsspellbooks.api.spells.AutoSpellConfig;
 import io.redspace.ironsspellbooks.api.spells.CastSource;
 import io.redspace.ironsspellbooks.api.spells.CastType;
 import io.redspace.ironsspellbooks.api.spells.SpellRarity;
 import io.redspace.ironsspellbooks.api.util.AnimationHolder;
 import io.redspace.ironsspellbooks.api.util.Utils;
+import io.redspace.ironsspellbooks.capabilities.magic.MagicManager;
+import io.redspace.ironsspellbooks.entity.spells.EarthquakeAoe;
+import io.redspace.ironsspellbooks.particle.BlastwaveParticleOptions;
+import net.acetheeldritchking.aces_spell_utils.spells.ASSpellAnimations;
+import net.acetheeldritchking.aces_spell_utils.utils.ASUtils;
 import net.acetheeldritchking.cataclysm_spellbooks.CataclysmSpellbooks;
 import net.acetheeldritchking.cataclysm_spellbooks.spells.CSSpellAnimations;
 import net.acetheeldritchking.cataclysm_spellbooks.util.CSUtils;
@@ -31,7 +37,6 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 import java.util.Optional;
 
-@AutoSpellConfig
 public class MalevolentBattlefieldSpell extends AbstractMaledictusSpell {
     private final ResourceLocation spellId = ResourceLocation.fromNamespaceAndPath(CataclysmSpellbooks.MOD_ID, "malevolent_battlefield");
 
@@ -82,6 +87,11 @@ public class MalevolentBattlefieldSpell extends AbstractMaledictusSpell {
     }
 
     @Override
+    public AnimationHolder getCastFinishAnimation() {
+        return ASSpellAnimations.ANIMATION_MALEVOLENT_HAND_SIGN_RELEASE;
+    }
+
+    @Override
     public Optional<SoundEvent> getCastStartSound() {
         return Optional.of(SoundEvents.WARDEN_HEARTBEAT);
     }
@@ -113,6 +123,16 @@ public class MalevolentBattlefieldSpell extends AbstractMaledictusSpell {
     }
 
     @Override
+    public void onServerCastTick(Level level, int spellLevel, LivingEntity entity, @Nullable MagicData playerMagicData) {
+        if (entity.tickCount % 10 == 0)
+        {
+            ASUtils.spawnParticlesInRing(16, 1.25f, 3.25f, 5.25f, 0.5F, 0.1F, entity, ModParticle.PHANTOM_WING_FLAME.get());
+        }
+
+        super.onServerCastTick(level, spellLevel, entity, playerMagicData);
+    }
+
+    @Override
     public void onCast(Level level, int spellLevel, LivingEntity entity, CastSource castSource, MagicData playerMagicData) {
         // Summon halberd field
         Item soulRenderer = ModItems.SOUL_RENDER.get();
@@ -128,7 +148,18 @@ public class MalevolentBattlefieldSpell extends AbstractMaledictusSpell {
             CSUtils.spawnHalberdWindmill(spellLevel * 4, getHalberdsPerBranch(spellLevel, entity), 1.5, 0.75, 0.2, 1, entity, level, getDamage(spellLevel, entity), spellLevel);
             //spawnHalberdField(spellLevel * 4, (int) getSpellPower(spellLevel, entity), 1.5, 0.75, 0.2, 1, entity, level, getDamage(spellLevel, entity), spellLevel);
         }
-        //System.out.println("After cast");
+        EarthquakeAoe aoe = new EarthquakeAoe(level);
+        aoe.moveTo(entity.position());
+        aoe.setOwner(entity);
+        aoe.setCircular();
+        aoe.setRadius(6);
+        aoe.setDuration(20);
+        aoe.setDamage(0);
+        aoe.setSlownessAmplifier(0);
+
+        MagicManager.spawnParticles(level, new BlastwaveParticleOptions(SchoolRegistry.ICE.get().getTargetingColor(), 4), entity.getX(), entity.getY() + 0.8F, entity.getZ(), 1, 0, 0, 0, 0, true);
+        ScreenShake_Entity.ScreenShake(level, entity.position(), 6.0F, 0.15F, 20, 20);
+        level.addFreshEntity(aoe);
 
         super.onCast(level, spellLevel, entity, castSource, playerMagicData);
     }

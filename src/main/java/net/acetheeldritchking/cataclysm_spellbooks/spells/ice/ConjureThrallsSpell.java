@@ -29,7 +29,6 @@ import net.neoforged.neoforge.common.NeoForge;
 import javax.annotation.Nullable;
 import java.util.List;
 
-@AutoSpellConfig
 public class ConjureThrallsSpell extends AbstractMaledictusSpell {
     private final ResourceLocation spellId = ResourceLocation.fromNamespaceAndPath(CataclysmSpellbooks.MOD_ID, "conjure_thralls");
 

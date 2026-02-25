@@ -1,12 +1,18 @@
 package net.acetheeldritchking.cataclysm_spellbooks.spells.ender;
 
+import com.github.L_Ender.cataclysm.client.particle.Options.StormParticleOptions;
+import com.github.L_Ender.cataclysm.client.particle.StormParticle;
 import com.github.L_Ender.cataclysm.init.ModItems;
+import com.github.L_Ender.cataclysm.init.ModParticle;
 import io.redspace.ironsspellbooks.api.config.DefaultConfig;
 import io.redspace.ironsspellbooks.api.magic.MagicData;
 import io.redspace.ironsspellbooks.api.registry.SchoolRegistry;
 import io.redspace.ironsspellbooks.api.spells.*;
 import io.redspace.ironsspellbooks.api.util.AnimationHolder;
+import io.redspace.ironsspellbooks.capabilities.magic.MagicManager;
+import net.acetheeldritchking.aces_spell_utils.utils.ASUtils;
 import net.acetheeldritchking.cataclysm_spellbooks.CataclysmSpellbooks;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
@@ -21,7 +27,6 @@ import net.minecraft.world.phys.Vec3;
 import java.util.List;
 import java.util.Optional;
 
-@AutoSpellConfig
 public class GravitationPullSpell extends AbstractSpell {
     private final ResourceLocation spellId = ResourceLocation.fromNamespaceAndPath(CataclysmSpellbooks.MOD_ID, "gravitation_pull");
 
@@ -72,7 +77,7 @@ public class GravitationPullSpell extends AbstractSpell {
 
     @Override
     public AnimationHolder getCastStartAnimation() {
-        return SpellAnimations.CHARGE_SPIT_ANIMATION;
+        return SpellAnimations.CAST_KNEELING_PRAYER;
     }
 
     @Override
@@ -82,11 +87,11 @@ public class GravitationPullSpell extends AbstractSpell {
         if (entity.getOffhandItem().is(gauntlet) || entity.getMainHandItem().is(gauntlet))
         {
             //System.out.println("Hand?");
-            radius =  spellLevel * 15;
+            radius =  spellLevel * 8;
         }
         else
         {
-            radius = spellLevel * 10;
+            radius = spellLevel * 2;
         }
 
         List<LivingEntity> entitiesNearby = level.getEntitiesOfClass(LivingEntity.class, entity.getBoundingBox().inflate(radius));
@@ -97,13 +102,13 @@ public class GravitationPullSpell extends AbstractSpell {
             }
 
             // Ty Cadentem :D
-            Vec3 difference = entity.position().subtract(target.position().add(0, 0, 0));
+            Vec3 difference = entity.position().subtract(target.position());
             difference = difference.normalize().scale(getDifference(spellLevel, entity));
 
             if (entity.isCrouching())
             {
                 // Pull entities away
-                target.setDeltaMovement(difference.multiply(-getDifference(spellLevel, entity), -getDifference(spellLevel, entity), -getDifference(spellLevel, entity)));
+                target.setDeltaMovement(difference.multiply(-getDifference(spellLevel, entity), -getDifference(spellLevel, entity), -getDifference(spellLevel, entity)).normalize());
             }
             else
             {
@@ -126,16 +131,28 @@ public class GravitationPullSpell extends AbstractSpell {
                 }
 
                 // if the added movement is too much they fly past the target - 0.2F
-                difference = difference.multiply(getDifference(spellLevel, entity), getDifference(spellLevel, entity), getDifference(spellLevel, entity));
+                difference = difference.multiply(getDifference(spellLevel, entity), getDifference(spellLevel, entity), getDifference(spellLevel, entity)).normalize();
                 target.setDeltaMovement(difference);
             }
         });
+
+        // Particles
+        float r = 0.4F;
+        float g = 0.1F;
+        float b = 0.8F;
+
+        MagicManager.spawnParticles(level, new StormParticleOptions(r, g, b, 2.75F + entity.getRandom().nextFloat() * 0.6F, 3.75F + entity.getRandom().nextFloat() * 0.6F, entity.getId()), entity.getX(), entity.getY(), entity.getZ(), 1, 0, 0, 0, 1, true);
+        MagicManager.spawnParticles(level, new StormParticleOptions(r, g, b, 2.5F + entity.getRandom().nextFloat() * 0.45F, 3.0F + entity.getRandom().nextFloat() * 0.45F, entity.getId()), entity.getX(), entity.getY(), entity.getZ(), 1, 0, 0, 0, 1, true);
+        MagicManager.spawnParticles(level, new StormParticleOptions(r, g, b, 2.25F + entity.getRandom().nextFloat() * 0.45F, 2.25F + entity.getRandom().nextFloat() * 0.45F, entity.getId()), entity.getX(), entity.getY(), entity.getZ(), 1, 0, 0, 0, 1, true);
+        MagicManager.spawnParticles(level, new StormParticleOptions(r, g, b, 1.25F + entity.getRandom().nextFloat() * 0.45F, 1.25F + entity.getRandom().nextFloat() * 0.45F, entity.getId()), entity.getX(), entity.getY(), entity.getZ(), 1, 0, 0, 0, 1, true);
+
+        ASUtils.spawnParticlesInRing(16, 1.25f, 3.25f, 5.25f, 0.5F, 0.1F, entity, ParticleTypes.DRAGON_BREATH);
 
         super.onCast(level, spellLevel, entity, castSource, playerMagicData);
     }
 
     private float getDifference(int spellLevel, LivingEntity caster)
     {
-        return getSpellPower(spellLevel, caster)/2;
+        return getSpellPower(spellLevel, caster)/5;
     }
 }

@@ -34,7 +34,9 @@ public class SpellRegistries {
     // Spells //
     //        //
 
-    // ABYSSAL //
+    /***
+     * Abyssal
+     */
     // Void Beam
     public static final Supplier<AbstractSpell> VOID_BEAM = registerSpell(new VoidBeamSpell());
 
@@ -56,8 +58,82 @@ public class SpellRegistries {
     // Tidal Claw (Summons Tidal Claw that grabs target) - Requires Tidal Claw
     public static final Supplier<AbstractSpell> TIDAL_GRAB = registerSpell(new TidalGrabSpell());
 
+    // Summon Coral Golem (Summons a few coral golem guys)
 
-    // ENDER //
+    // Summon Corallusus (Summons a singular Corallusus for you to ride)
+
+    // Summon Lionfish Swarm (Summons a bunch of lionfish, can only be casted while in the water)
+
+    // Conjure: Clawdian (Summons a Clawdian to fight for you)
+
+    // Wrath of The Abyss (Apply an effect to yourself that prevents your death. This applies an effect that boosts your spell power but reduces your max health)
+
+    //                //
+    // ABYSSAL REWORK //
+    //                //
+
+    // Delta Pressure [ABYSSAL]: Evaluate the pressure between the caster and the target. If the target has less pressure than the caster, equalize the pressure and deal damage to the target based on the difference in pressure. If the caster has more pressure than the target, equalize and debuff the caster. Pressure is influenced by the gravitational attributes of the target and caster, whether the caster is in water or not, and whether the caster has the Pressurized effect.
+
+    // Pressurize [ABYSSAL]: Increases the caster's gravity outside of water and apply the pressurized status effect.
+
+    // Aquatic Lungs [ABYSSAL]: Grant the caster the ability to breathe underwater for a short time.
+
+    // Whalefall [ABYSSAL]: Apply the Whalefall effect on the targeted entity. When that entity dies, creates an explosion that heals the caster and nearby entities.
+
+    // Thermal Adaptation [ABYSSAL]: Boil the water around you, granting you increased resistance against fire spells. Can only be casted while underwater, effect clears once the caster leaves the water.
+
+    // Abyssal Prey [ABYSSAL]: Target an entity; you deal more damage to that specific entity, however, you will deal less damage to any other entity.
+
+    // Midnight Zone [ABYSSAL]: In a radius around the caster, inflict darkness and blindness to all entities within that radius. Can only be casted while underwater. All entities in range take more damage from Abyssal spells.
+
+    // Aquatic Snow [ABYSSAL]: Summon aquatic snow around the caster, heals a small amount per time spent in the snow.
+
+    // Bio-Disorient [ABYSSAL]: The caster turns transparent, gains bioluminescent, and creates copies of itself to distract targets. Can only be casted while under the water.
+
+    // Submerge [ABYSSAL]: Greatly increase the target's pressure and gravity, increasing even more while the target is in the water.
+
+    // Depressurize [ABYSSAL]: Target either the caster or an entity to decrease their pressure
+
+    // Downpour/Deluge (Summons a rainstorm around the caster, entities within become conductive)
+
+    // Riptide (Drag nearby entities into you, dealing damage to them. Only casted in water)
+
+    // Undercurrent (Dash in the direction you are looking in. Increased power when underwater)
+
+    // Saltwater Spray (Spray saltwater, entities caught in it become conductive)
+
+    // Schooling (Based on the amount of fish entities near you, your abyssal spell power is increased for X amount of spells. Only works underwater)
+
+    // Alkaline Waters (Clears all effects from the caster, negative and positive)
+
+    // Squid Launcher (Unleash an empowered squid in the direction the caster is looking in - Apparition Maw exclusive)
+
+    // Tide Turn (Hold a defensive stance, increasing spell resistance and clearing negative effects. After the spell finishes, spell power is increased - Lacerator exclusive)
+
+    // Cyclone (Scylla pushing you back attack)
+
+    // Pacific Perforator (Lightning Spear attack)
+
+    // Serpents of The Sea (Scylla's serpents)
+
+    // Rogue Wave (Cataclysm Wave)
+
+    // Cavitation Bubble (Create a highly pressurized bubble, when upon hitting an entity, it creates a volatile explosion with an AoE shockwave. Scales with Fire SP - Perforator exclusive)
+
+
+    /***
+     * Blood
+     */
+    // Hemorrhaging Impact (Shoot out crystallized blood followed by several blood needles. The blood crystals, on impact, inflict bleeding & hemophilia)
+
+    // Quick Strike (Unleash X amount of strikes with the damage incrementing per recast. Ignores i-frames)
+
+    // Final Rend (Charge up a devastating slash. This slash deals damage based on health and inflicts strong lifesteal. Ignores i-frames & protection. Caster is given a grace period while charging. Inflicts Disabled and Severed)
+
+
+    /***
+     * Ender
+     */
     // Void Rune (Ender)
     public static final Supplier<AbstractSpell> VOID_RUNE = registerSpell(new VoidRuneSpell());
 
@@ -68,24 +144,35 @@ public class SpellRegistries {
     public static final Supplier<AbstractSpell> GRAVITY_STORM = registerSpell(new GravityStormSpell());
 
     // Gravitational Pull (Pulls entities in like Gauntlet of Guard)
-    // Removing this in 1.21.1, I want to rework it
-    //public static final Supplier<AbstractSpell> GRAVITATION_PULL = registerSpell(new GravitationPullSpell());
+    public static final Supplier<AbstractSpell> GRAVITATION_PULL = registerSpell(new GravitationPullSpell());
+
+    // Shell Smash (Envelop yourself in a thick shell, reducing damage to yourself. After X amount of hits, the shell breaks and you briefly gain speed and extra spell power for X number of attacks)
+
+    // Quasar Burst (Wherever you look, create a vertical quasar blast that greatly damages entities caught in it - exclusive to the Obliterator)
 
 
-    // EVOCATION //
+    /***
+     * Evocation
+     */
     // Steal (Steals target's mainhand item)
     public static final Supplier<AbstractSpell> PILFER = registerSpell(new PilferSpell());
 
 
-    // HOLY //
+    /***
+     * Holy
+     */
     // Summon Koboldiator
     public static final Supplier<AbstractSpell> CONJURE_KOBOLDIATOR = registerSpell(new ConjureKoboldiatorSpell());
 
     // Summon Koboleton (Summon Koboletons)
     public static final Supplier<AbstractSpell> CONJURE_KOBOLETON = registerSpell(new ConjureKoboletonSpell());
 
+    // Thoth's Witness (For less than a minute, summon the ghost of The Ancient Remnant to fight for you.)
 
-    // FIRE //
+
+    /***
+     * Fire
+     */
     // Incineration (Fire) (Summon Fire runes in row) - Requires Burning Ashes
     public static final Supplier<AbstractSpell> INCINERATION = registerSpell(new IncinerationSpell());
 
@@ -115,16 +202,26 @@ public class SpellRegistries {
     // Tectonic Tremble
     public static final Supplier<AbstractSpell> TECTONIC_TREMBLE = registerSpell(new TectonicTrembleSpell());
 
+    // Avatar of Flame (Ignite yourself on fire, at half health you turn into soul fire and your fire spell power is increased but every other element is decreased. Prevents you from being placed on fire, all your attacks ignite opponents. Buffs to Ignis spells)
 
-    // LIGHTNING //
+    // Infernal Inhalation (Absorb any lava blocks near you, healing you for how much lava is around you)
+
+    // Scorched Earth (Shoot out a barrage of molten bullets that combust on the ground, igniting entities caught within)
 
 
-    // ICE //
+    /***
+     * Lightning
+     */
+    //
+
+
+    /***
+     * Ice
+     */
     // Malevolent Battlefield (Summon Maledictus' halberd field)
     public static final Supplier<AbstractSpell> MALEVOLENT_BATTLEFIELD = registerSpell(new MalevolentBattlefieldSpell());
 
     // Forgone Rage (Apply Wrath effect to the user. As the user attacks, it fills a rage meter. Each level is an additional 10% extra damage)
-    // TEMPORARILY NOT AVAILABLE IN 1.21.1
     //public static final Supplier<AbstractSpell> FORGONE_RAGE = registerSpell(new ForgoneRageSpell());
 
     // Conjure Thrall (Summons the ice undead warriors)
@@ -145,8 +242,12 @@ public class SpellRegistries {
 
     // Summon Maledictus (April Fools spell)
 
+    // Cryopiercer (Shoot a blast of freezing cold energy, spawning a circle of ice spikes on impact. Entities hit are encased in ice which shatters after a few seconds)
 
-    // NATURE //
+
+    /***
+     * Nature
+     */
     // Sandstorm (Summon desert tornadoes around the user)
     public static final Supplier<AbstractSpell> SANDSTORM = registerSpell(new SandstormSpell());
 
@@ -159,18 +260,70 @@ public class SpellRegistries {
     // Amethyst Puncture (Shoots out an amethyst spike)
     public static final Supplier<AbstractSpell> AMETHYST_PUNCTURE = registerSpell(new AmethystPunctureSpell());
 
-    // Summon Ancient Remnant (April Fools spell)
-
     // Summon Amethyst Crab
     public static final Supplier<AbstractSpell> CONJURE_AMETHYST_CRAB = registerSpell(new ConjureAmethystCrabSpell());
 
+    // Pharaoh's Wrath (Every hit you take increases your wrath. At max wrath, all of your attacks inflict the Desert's Curse effect, and summons several sandstorms around you. You gain strong debuffs afterwards)
 
-    // TECHNOMANCY //
+    // Diamond Storm (Rain down amethyst chunks around the caster. Radius scales with level)
+
+    // Scorching Sands (Spew out burning hot sand, confusing enemies and burning them)
+
+
+    /***
+     * Technomancy
+     */
     // EMP (Cast an emp blast?)
 
-    // Lock-on (Summon a target particle above the entity's head, stuns and incapacitates them for a few seconds
+    // Lock-on (Summon a target particle above the entity's head, stuns and incapacitates them for a few seconds)
 
-    // Summon Harbinger (April Fools spell)
+    // Hijack (Steals a target's summons for yourself)
+
+    // Laserbolt (Shoots out the little Harbinger small laser)
+
+    // Atomic Laser (Harbinger big laser blast)
+
+    // DoS Swarm (Summons a swarm of Watchers that act as a counterspell projectiles)
+
+    // Missile Launch (Shoots out a missile)
+
+    // Construct: Watchers (Summons a group of Watchers)
+
+    // Construct: Prowler (Summons a Prowler)
+
+    // DDoS (AoE counterspell)
+
+    // Shutdown (Prevent the target from attacking or using items. Does not stack with Lock-on)
+
+    // Rewire (Buff selected summons' speed and damage, reducing their armor and armor toughness)
+
+    // Hardware Update (Increases your damage and armor, does not stack with charge/clears it)
+
+    // Software Update (Increases your speed and cooldown, does not stack with charge and haste/clears it)
+
+    // Bothearder (AoE summon steal)
+
+    // Flash Bang (Throw a live grenade, blinding nearby entities within the blast zone)
+
+    // Aerial Assault (Summon various missiles down from the sky)
+
+    // Intrusion Prevention System (Reduce all incoming projectile damage, prevent summons from being counterspelled)
+
+    // Overclock (Special imbue on Excelsius armor, overclock the caster which unlocks more capabilities and stats from the armor)
+
+    // Parting Shot (Exclusive to The Subjugator, shoots out two shots that inflict Wither)
+
+    // Disabling Swipe (Charge up a slash attack, the swipe prevents hit entities from healing)
+
+    // Gear Shift (A multicast movement spell, dash forwards when standing and upwards when crouching)
+
+    // Reboot (Heals the caster and any nearby summons)
+
+    // Surveillance Drone (Summons a drone on top of your selected summon, healing nearby summons and clearing any negative status effects)
+
+    // R.A.I.D Backup (Creates a backup of your health and stats. Each spell level allows you more stats to back up (1 = HP, 2 = Location, 3 = Potion Effects))
+
+    // Exploitation (Evaluates the stats of the target. Based on those stats, grant a debuff targeting one of them)
 
     public static void register(IEventBus eventBus)
     {

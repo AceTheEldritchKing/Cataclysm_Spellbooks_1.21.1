@@ -20,7 +20,6 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 
 import java.util.List;
 
-@AutoSpellConfig
 public class MonolithCrashSpell extends AbstractSpell {
     private final ResourceLocation spellId = ResourceLocation.fromNamespaceAndPath(CataclysmSpellbooks.MOD_ID, "monolith_crash");
 
