@@ -7,6 +7,7 @@ import io.redspace.ironsspellbooks.capabilities.magic.MagicManager;
 import io.redspace.ironsspellbooks.damage.DamageSources;
 import io.redspace.ironsspellbooks.entity.spells.AbstractMagicProjectile;
 import io.redspace.ironsspellbooks.util.ParticleHelper;
+import net.acetheeldritchking.cataclysm_spellbooks.entity.spells.hellish_blade.HellishBladeProjectile;
 import net.acetheeldritchking.cataclysm_spellbooks.registries.CSEntityRegistry;
 import net.acetheeldritchking.cataclysm_spellbooks.registries.SpellRegistries;
 import net.minecraft.core.Holder;
@@ -34,11 +35,7 @@ import java.util.Optional;
 
 public class InfernalBladeProjectile extends AbstractMagicProjectile implements GeoEntity {
     private final AnimatableInstanceCache geoCache = GeckoLibUtil.createInstanceCache(this);
-    private static final EntityDataAccessor<Boolean> SOUL;
-
-    static {
-        SOUL = SynchedEntityData.defineId(InfernalBladeProjectile.class, EntityDataSerializers.BOOLEAN);
-    }
+    private final static EntityDataAccessor<Boolean> SOUL = SynchedEntityData.defineId(InfernalBladeProjectile.class, EntityDataSerializers.BOOLEAN);
 
     public InfernalBladeProjectile(EntityType<? extends Projectile> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
@@ -61,6 +58,13 @@ public class InfernalBladeProjectile extends AbstractMagicProjectile implements 
         }
     }
 
+    public void setRotation(float x, float y) {
+        this.setXRot(x);
+        this.xRotO = x;
+        this.setYRot(y);
+        this.yRotO = y;
+    }
+
     @Override
     public void tick() {
         Vec3 deltaMovement = getDeltaMovement();
@@ -80,13 +84,13 @@ public class InfernalBladeProjectile extends AbstractMagicProjectile implements 
     @Override
     public void trailParticles() {
         Vec3 vec3 = this.position().subtract(getDeltaMovement());
-        this.level().addParticle(ParticleHelper.EMBERS, vec3.x, vec3.y, vec3.z, 0, 0, 0);
+        level().addParticle(ParticleHelper.EMBERS, vec3.x, vec3.y, vec3.z, 0, 0, 0);
     }
 
     @Override
     public void impactParticles(double x, double y, double z) {
         MagicManager.spawnParticles
-                (this.level(), ModParticle.TRAP_FLAME.get(), x, y, z, 5, 0, 0, 0, 1, true);
+                (level(), ModParticle.TRAP_FLAME.get(), x, y, z, 5, 0, 0, 0, 1, true);
     }
 
     @Override
@@ -156,7 +160,8 @@ public class InfernalBladeProjectile extends AbstractMagicProjectile implements 
     // NBT
     @Override
     protected void defineSynchedData(SynchedEntityData.Builder pBuilder) {
-        this.entityData.set(SOUL, false);
+        super.defineSynchedData(pBuilder);
+        pBuilder.define(SOUL, false);
     }
 
     @Override

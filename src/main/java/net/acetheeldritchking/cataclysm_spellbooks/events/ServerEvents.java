@@ -211,14 +211,13 @@ public class ServerEvents {
                 addIfNonNull(mob, AttributeRegistry.ELDRITCH_MAGIC_RESIST, 0.5);
                 addIfNonNull(mob, AttributeRegistry.ICE_MAGIC_RESIST, 1.5);
             }
-            /* Added Scylla tag for future use
+            //Added Scylla tag for future use
             if (mob.getType() == ModEntities.SCYLLA.get())
             {
-                // Scylla takes extra nature damage, and less ice damage
-                addIfNonNull(mob, AttributeRegistry.NATURE_MAGIC_RESIST, 0.5);
+                // Scylla takes extra ice damage, and less lightning damage
+                addIfNonNull(mob, AttributeRegistry.ICE_MAGIC_RESIST, 0.5);
                 addIfNonNull(mob, AttributeRegistry.LIGHTNING_MAGIC_RESIST, 1.5);
             }
-            */
         }
     }
 
@@ -324,7 +323,6 @@ public class ServerEvents {
         {
             if (!entity.level().isClientSide())
             {
-                System.out.println("Potion Effect!");
                 CSUtils.spawnHalberdWindmill(5, 5, 1.0F, 0.5F, 0.5F, 1, (LivingEntity) entity, entity.level(), 5, 1);
             }
         }
@@ -387,26 +385,4 @@ public class ServerEvents {
             }
         }
     }
-
-    // Capabilities
-    /*
-    @SubscribeEvent
-    public static void onAttachCapabilitiesPlayer(AttachCapabilitiesEvent<Entity> event)
-    {
-        if (event.getObject() instanceof Player)
-        {
-            // Wrath
-            if (!event.getObject().getCapability(PlayerWrathProvider.PLAYER_WRATH).isPresent())
-            {
-                event.addCapability(new ResourceLocation(CataclysmSpellbooks.MOD_ID, "wrath"), new PlayerWrathProvider());
-            }
-        }
-    }
-
-    @SubscribeEvent
-    public static void onRegisterCapabilities(RegisterCapabilitiesEvent event)
-    {
-        event.register(PlayerWrath.class);
-    }
-    */
 }
