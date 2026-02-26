@@ -144,8 +144,8 @@ public class ItemRegistries {
     public static final DeferredHolder<Item, Item> ABYSSAL_UPGRADE_ORB = ITEMS.register("abyssal_upgrade_orb",
             () -> new UpgradeOrbItem(ItemPropertiesHelper.material().rarity(Rarity.UNCOMMON).component(ComponentRegistry.UPGRADE_ORB_TYPE, CSUpgradeOrbTypeRegistry.ABYSSAL_SPELL_POWER)));
 
-    //public static final DeferredHolder<Item, Item> TECHNOMANCY_UPGRADE_ORB = ITEMS.register("technomancy_upgrade_orb",
-            //() -> new UpgradeOrbItem(ItemPropertiesHelper.material().rarity(Rarity.UNCOMMON).component(ComponentRegistry.UPGRADE_ORB_TYPE, CSUpgradeOrbTypeRegistry.TECHNOMANCY_SPELL_POWER)));
+    public static final DeferredHolder<Item, Item> TECHNOMANCY_UPGRADE_ORB = ITEMS.register("technomancy_upgrade_orb",
+            () -> new UpgradeOrbItem(ItemPropertiesHelper.material().rarity(Rarity.UNCOMMON).component(ComponentRegistry.UPGRADE_ORB_TYPE, CSUpgradeOrbTypeRegistry.TECHNOMANCY_SPELL_POWER)));
 
     /***
      * Curios

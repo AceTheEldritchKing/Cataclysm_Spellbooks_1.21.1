@@ -21,7 +21,7 @@ public class CSCreativeModeTabs {
                         // Materials
                         output.accept(ItemRegistries.ABYSSAL_RUNE.get());
                         output.accept(ItemRegistries.ABYSSAL_UPGRADE_ORB.get());
-                        //output.accept(ItemRegistries.TECHNOMANCY_UPGRADE_ORB.get());
+                        output.accept(ItemRegistries.TECHNOMANCY_UPGRADE_ORB.get());
                         // Curios
                         output.accept(ItemRegistries.LEVIATHANS_BLESSING.get());
                         // Spellbooks
@@ -70,7 +70,7 @@ public class CSCreativeModeTabs {
 
                         output.accept(ItemRegistries.MONSTROUS_WIZARD_HAT.get());
 
-                        /*output.accept(ItemRegistries.ENGINEER_MAGE_HOOD.get());
+                        output.accept(ItemRegistries.ENGINEER_MAGE_HOOD.get());
                         output.accept(ItemRegistries.ENGINEER_MAGE_SUIT.get());
                         output.accept(ItemRegistries.ENGINEER_MAGE_LEGGINGS.get());
                         output.accept(ItemRegistries.ENGINEER_MAGE_BOOTS.get());
@@ -82,7 +82,7 @@ public class CSCreativeModeTabs {
                         output.accept(ItemRegistries.EXCELSIUS_RESIST_HELMET.get());
                         output.accept(ItemRegistries.EXCELSIUS_RESIST_CHESTPLATE.get());
                         output.accept(ItemRegistries.EXCELSIUS_WARLOCK_LEGGINGS.get());
-                        output.accept(ItemRegistries.EXCELSIUS_WARLOCK_BOOTS.get());*/
+                        output.accept(ItemRegistries.EXCELSIUS_WARLOCK_BOOTS.get());
                     }).build());
 
     public static void register(IEventBus eventBus)
