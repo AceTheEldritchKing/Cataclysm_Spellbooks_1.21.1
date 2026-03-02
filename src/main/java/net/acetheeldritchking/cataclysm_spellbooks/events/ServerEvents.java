@@ -28,6 +28,7 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
@@ -140,6 +141,8 @@ public class ServerEvents {
                         float totalDamage = baseAmount + bonusDamage;
 
                         event.setNewDamage(totalDamage);
+
+                        //CataclysmSpellbooks.LOGGER.debug("Forgone rage stacks: " + player.getData(FORGONE_RAGE));
                     }
 
                     player.level().playSound(null, player.getX(), player.getY(), player.getZ(), ModSounds.MALEDICTUS_SHORT_ROAR.get(), SoundSource.PLAYERS, 1.0F, 1.0F);
@@ -164,6 +167,8 @@ public class ServerEvents {
                         float totalDamage = baseAmount + bonusDamage;
 
                         event.setNewDamage(totalDamage);
+
+                        //CataclysmSpellbooks.LOGGER.debug("Pharaoh's wrath stacks: " + player.getData(KINGS_WRATH));
                     }
 
                     player.level().playSound(null, player.getX(), player.getY(), player.getZ(), ModSounds.REMNANT_CHARGE_ROAR.get(), SoundSource.PLAYERS, 1.0F, 1.0F);
@@ -318,14 +323,12 @@ public class ServerEvents {
     public static void onEffectRemove(MobEffectEvent.Remove event)
     {
         LivingEntity entity = event.getEntity();
-        Holder<MobEffect> effect = event.getEffectInstance().getEffect();
+        //Holder<MobEffect> effect = event.getEffectInstance().getEffect();
 
         // Rage
         if (entity instanceof LivingEntity livingEntity)
         {
-            var rage = entity.getEffect(CSPotionEffectRegistry.WRATHFUL);
-
-            if (rage != null)
+            if (livingEntity.hasEffect(CSPotionEffectRegistry.WRATHFUL))
             {
                 entity.getData(FORGONE_RAGE);
 
@@ -333,15 +336,18 @@ public class ServerEvents {
                 {
                     livingEntity.setData(FORGONE_RAGE, 0);
                 }
+
+                // Debuff time
+                livingEntity.addEffect(new MobEffectInstance(MobEffects.DARKNESS, 60, 1, false, false, false));
+                livingEntity.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 10*20, 1 + entity.getData(FORGONE_RAGE), false, true, true));
+                livingEntity.addEffect(new MobEffectInstance(MobEffects.WEAKNESS, 10*20, 1 + entity.getData(FORGONE_RAGE), false, true, true));
             }
         }
 
         // Wrath
         if (entity instanceof LivingEntity livingEntity)
         {
-            var rage = entity.getEffect(CSPotionEffectRegistry.KINGS_WRATH_EFFECT);
-
-            if (rage != null)
+            if (livingEntity.hasEffect(CSPotionEffectRegistry.KINGS_WRATH_EFFECT))
             {
                 entity.getData(KINGS_WRATH);
 
@@ -349,6 +355,11 @@ public class ServerEvents {
                 {
                     livingEntity.setData(KINGS_WRATH, 0);
                 }
+
+                // Debuff time
+                livingEntity.addEffect(new MobEffectInstance(ModEffect.EFFECTCURSE_OF_DESERT, 60, 1, false, false, false));
+                livingEntity.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 10*20, 1 + entity.getData(FORGONE_RAGE), false, true, true));
+                livingEntity.addEffect(new MobEffectInstance(MobEffects.WEAKNESS, 10*20, 1 + entity.getData(FORGONE_RAGE), false, true, true));
             }
         }
     }
@@ -358,14 +369,12 @@ public class ServerEvents {
     {
 
         LivingEntity entity = event.getEntity();
-        Holder<MobEffect> effect = event.getEffectInstance().getEffect();
+        //Holder<MobEffect> effect = event.getEffectInstance().getEffect();
 
         // Cursed Frenzy
         if (entity instanceof LivingEntity livingEntity)
         {
-            var frenzy = entity.getEffect(CSPotionEffectRegistry.CURSED_FRENZY);
-
-            if (frenzy != null)
+            if (livingEntity.hasEffect(CSPotionEffectRegistry.CURSED_FRENZY))
             {
                 if (!entity.level().isClientSide())
                 {
@@ -377,9 +386,7 @@ public class ServerEvents {
         // Rage
         if (entity instanceof LivingEntity livingEntity)
         {
-            var rage = entity.getEffect(CSPotionEffectRegistry.WRATHFUL);
-
-            if (rage != null)
+            if (livingEntity.hasEffect(CSPotionEffectRegistry.WRATHFUL))
             {
                 entity.getData(FORGONE_RAGE);
 
@@ -387,15 +394,18 @@ public class ServerEvents {
                 {
                     livingEntity.setData(FORGONE_RAGE, 0);
                 }
+
+                // Debuff time
+                livingEntity.addEffect(new MobEffectInstance(MobEffects.DARKNESS, 60, 1, false, false, false));
+                livingEntity.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 10*20, 1 + entity.getData(FORGONE_RAGE), false, true, true));
+                livingEntity.addEffect(new MobEffectInstance(MobEffects.WEAKNESS, 10*20, 1 + entity.getData(FORGONE_RAGE), false, true, true));
             }
         }
 
         // Wrath
         if (entity instanceof LivingEntity livingEntity)
         {
-            var rage = entity.getEffect(CSPotionEffectRegistry.KINGS_WRATH_EFFECT);
-
-            if (rage != null)
+            if (livingEntity.hasEffect(CSPotionEffectRegistry.KINGS_WRATH_EFFECT))
             {
                 entity.getData(KINGS_WRATH);
 
@@ -403,6 +413,11 @@ public class ServerEvents {
                 {
                     livingEntity.setData(KINGS_WRATH, 0);
                 }
+
+                // Debuff time
+                livingEntity.addEffect(new MobEffectInstance(ModEffect.EFFECTCURSE_OF_DESERT, 60, 1, false, false, false));
+                livingEntity.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 10*20, 1 + entity.getData(FORGONE_RAGE), false, true, true));
+                livingEntity.addEffect(new MobEffectInstance(MobEffects.WEAKNESS, 10*20, 1 + entity.getData(FORGONE_RAGE), false, true, true));
             }
         }
 

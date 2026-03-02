@@ -1,4 +1,4 @@
-package net.acetheeldritchking.cataclysm_spellbooks.spells.nature;
+package net.acetheeldritchking.cataclysm_spellbooks.spells.sand;
 
 import com.github.L_Ender.cataclysm.entity.effect.Sandstorm_Entity;
 import com.github.L_Ender.cataclysm.init.ModSounds;
@@ -15,6 +15,7 @@ import net.acetheeldritchking.aces_spell_utils.spells.ASSpellAnimations;
 import net.acetheeldritchking.cataclysm_spellbooks.CataclysmSpellbooks;
 import net.acetheeldritchking.cataclysm_spellbooks.effects.potion.KingsWrathPotionEffect;
 import net.acetheeldritchking.cataclysm_spellbooks.registries.CSPotionEffectRegistry;
+import net.acetheeldritchking.cataclysm_spellbooks.registries.CSSchoolRegistry;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
@@ -43,7 +44,7 @@ public class PharaohsWrathSpell extends AbstractSpell {
 
     private final DefaultConfig defaultConfig = new DefaultConfig()
             .setMinRarity(SpellRarity.LEGENDARY)
-            .setSchoolResource(SchoolRegistry.NATURE_RESOURCE)
+            .setSchoolResource(CSSchoolRegistry.SAND_RESOURCE)
             .setMaxLevel(3)
             .setCooldownSeconds(120)
             .build();

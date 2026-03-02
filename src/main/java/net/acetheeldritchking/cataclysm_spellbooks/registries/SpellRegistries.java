@@ -17,8 +17,11 @@ import net.acetheeldritchking.cataclysm_spellbooks.spells.ice.CursedRushSpell;
 import net.acetheeldritchking.cataclysm_spellbooks.spells.ice.ForgoneRageSpell;
 import net.acetheeldritchking.cataclysm_spellbooks.spells.ice.MalevolentBattlefieldSpell;
 import net.acetheeldritchking.cataclysm_spellbooks.spells.nature.*;
+import net.acetheeldritchking.cataclysm_spellbooks.spells.sand.DesertWindsSpell;
+import net.acetheeldritchking.cataclysm_spellbooks.spells.sand.MonolithCrashSpell;
+import net.acetheeldritchking.cataclysm_spellbooks.spells.sand.PharaohsWrathSpell;
+import net.acetheeldritchking.cataclysm_spellbooks.spells.sand.SandstormSpell;
 import net.neoforged.bus.api.IEventBus;
-import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
 import java.util.function.Supplier;

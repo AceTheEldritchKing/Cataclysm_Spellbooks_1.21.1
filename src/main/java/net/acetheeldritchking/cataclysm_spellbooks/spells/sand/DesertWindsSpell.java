@@ -1,9 +1,8 @@
-package net.acetheeldritchking.cataclysm_spellbooks.spells.nature;
+package net.acetheeldritchking.cataclysm_spellbooks.spells.sand;
 
 import com.github.L_Ender.cataclysm.entity.projectile.Sandstorm_Projectile;
 import io.redspace.ironsspellbooks.api.config.DefaultConfig;
 import io.redspace.ironsspellbooks.api.magic.MagicData;
-import io.redspace.ironsspellbooks.api.registry.SchoolRegistry;
 import io.redspace.ironsspellbooks.api.spells.*;
 import io.redspace.ironsspellbooks.api.util.Utils;
 import net.acetheeldritchking.cataclysm_spellbooks.CataclysmSpellbooks;
@@ -32,7 +31,7 @@ public class DesertWindsSpell extends AbstractSpell {
             .setMinRarity(SpellRarity.RARE)
             .setSchoolResource(CSSchoolRegistry.SAND_RESOURCE)
             .setMaxLevel(10)
-            .setCooldownSeconds(8)
+            .setCooldownSeconds(5)
             .build();
 
     public DesertWindsSpell()

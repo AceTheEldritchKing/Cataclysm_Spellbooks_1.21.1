@@ -1,9 +1,8 @@
-package net.acetheeldritchking.cataclysm_spellbooks.spells.nature;
+package net.acetheeldritchking.cataclysm_spellbooks.spells.sand;
 
 import com.github.L_Ender.cataclysm.entity.effect.Sandstorm_Entity;
 import io.redspace.ironsspellbooks.api.config.DefaultConfig;
 import io.redspace.ironsspellbooks.api.magic.MagicData;
-import io.redspace.ironsspellbooks.api.registry.SchoolRegistry;
 import io.redspace.ironsspellbooks.api.spells.*;
 import net.acetheeldritchking.cataclysm_spellbooks.CataclysmSpellbooks;
 import net.acetheeldritchking.cataclysm_spellbooks.registries.CSSchoolRegistry;
