@@ -2,11 +2,14 @@ package net.acetheeldritchking.cataclysm_spellbooks.events;
 
 import com.github.L_Ender.cataclysm.init.ModEffect;
 import com.github.L_Ender.cataclysm.init.ModEntities;
+import com.github.L_Ender.cataclysm.init.ModSounds;
 import com.github.L_Ender.lionfishapi.server.event.StandOnFluidEvent;
 import io.redspace.ironsspellbooks.api.events.ModifySpellLevelEvent;
 import io.redspace.ironsspellbooks.api.registry.AttributeRegistry;
 //import net.acetheeldritchking.cataclysm_spellbooks.capabilities.wrath.PlayerWrath;
 //import net.acetheeldritchking.cataclysm_spellbooks.capabilities.wrath.PlayerWrathProvider;
+import net.acetheeldritchking.cataclysm_spellbooks.CataclysmSpellbooks;
+import net.acetheeldritchking.cataclysm_spellbooks.effects.potion.WrathfulPotionEffect;
 import net.acetheeldritchking.cataclysm_spellbooks.util.CSConfig;
 import net.acetheeldritchking.cataclysm_spellbooks.effects.potion.AbyssalPredatorPotionEffect;
 import net.acetheeldritchking.cataclysm_spellbooks.effects.potion.CursedFrenzyEffect;
@@ -15,6 +18,7 @@ import net.acetheeldritchking.cataclysm_spellbooks.registries.CSPotionEffectRegi
 import net.acetheeldritchking.cataclysm_spellbooks.registries.ItemRegistries;
 import net.acetheeldritchking.cataclysm_spellbooks.util.CSUtils;
 import net.minecraft.core.Holder;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageSource;
@@ -24,6 +28,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.material.Fluids;
@@ -33,6 +38,8 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
 import net.neoforged.neoforge.event.entity.living.*;
 import net.neoforged.neoforge.event.tick.EntityTickEvent;
+
+import static net.acetheeldritchking.cataclysm_spellbooks.registries.CSAttachmentRegistry.FORGONE_RAGE;
 
 @SuppressWarnings("unused")
 @EventBusSubscriber
@@ -106,30 +113,39 @@ public class ServerEvents {
         }
 
         // Forgone Rage
-        /*
         if (entity instanceof LivingEntity attacker)
         {
             if (attacker.hasEffect(CSPotionEffectRegistry.WRATHFUL))
             {
                 if (attacker instanceof Player player)
                 {
-                    player.getCapability(PlayerWrathProvider.PLAYER_WRATH).ifPresent(wrath -> {
-                        wrath.addWrath(1);
+                    player.getData(FORGONE_RAGE);
 
-                        float baseAmount = event.getAmount();
-                        float damageBonusPerLevel = WrathfulPotionEffect.ATTACK_DAMAGE_PER_WRATH * wrath.getWrath();
+                    if (player.hasData(FORGONE_RAGE))
+                    {
+                        if (player.getData(FORGONE_RAGE) < 4)
+                        {
+                            setRageValue(player, 1);
+                        }
+
+                        float baseAmount = event.getOriginalDamage();
+                        float damageBonusPerLevel = WrathfulPotionEffect.ATTACK_DAMAGE_PER_WRATH * player.getData(FORGONE_RAGE);
                         float bonusDamage = baseAmount * damageBonusPerLevel;
                         float totalDamage = baseAmount + bonusDamage;
 
-                        event.setAmount(totalDamage);
-                        //System.out.println("Damage: " + totalDamage);
-                    });
+                        event.setNewDamage(totalDamage);
+                    }
 
-                    player.level.playSound(null, player.getX(), player.getY(), player.getZ(), ModSounds.MALEDICTUS_SHORT_ROAR.get(), SoundSource.PLAYERS, 1.0F, 1.0F);
+                    player.level().playSound(null, player.getX(), player.getY(), player.getZ(), ModSounds.MALEDICTUS_SHORT_ROAR.get(), SoundSource.PLAYERS, 1.0F, 1.0F);
                 }
             }
         }
-        */
+    }
+
+    public static void setRageValue(LivingEntity entity, int val)
+    {
+        int newVal = Math.min(val, 4);
+        entity.setData(FORGONE_RAGE, entity.getData(FORGONE_RAGE) + newVal);
     }
 
     @SubscribeEvent
@@ -265,37 +281,63 @@ public class ServerEvents {
     @SubscribeEvent
     public static void onEffectRemove(MobEffectEvent.Remove event)
     {
-        /*
-        Entity entity = event.getEntity();
-        MobEffect effect = event.getEffect();
+        LivingEntity entity = event.getEntity();
+        Holder<MobEffect> effect = event.getEffectInstance().getEffect();
+
+        // Wrath
         if (entity instanceof LivingEntity livingEntity)
         {
-            if (effect instanceof WrathfulPotionEffect)
+            var rage = entity.getEffect(CSPotionEffectRegistry.WRATHFUL);
+
+            if (rage != null)
             {
-                if (livingEntity.hasEffect(effect) && livingEntity instanceof Player player)
+                entity.getData(FORGONE_RAGE);
+
+                if (livingEntity.hasData(FORGONE_RAGE))
                 {
-                    player.getCapability(PlayerWrathProvider.PLAYER_WRATH).ifPresent(wrath -> {
-
-                        player.addEffect(new MobEffectInstance(MobEffects.DARKNESS, 60, 1, false, false, false));
-                        player.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 10*20, 1 + wrath.getWrath(), false, true, true));
-                        player.addEffect(new MobEffectInstance(MobEffects.WEAKNESS, 10*20, 1 + wrath.getWrath(), false, true, true));
-
-                        wrath.resetWrath();
-                    });
-                    //System.out.println("Poof!");
+                    livingEntity.setData(FORGONE_RAGE, 0);
                 }
             }
         }
-
-         */
     }
 
     @SubscribeEvent
     public static void onEffectExpire(MobEffectEvent.Expired event)
     {
 
-        Entity entity = event.getEntity();
+        LivingEntity entity = event.getEntity();
         Holder<MobEffect> effect = event.getEffectInstance().getEffect();
+
+        // Cursed Frenzy
+        if (entity instanceof LivingEntity livingEntity)
+        {
+            var frenzy = entity.getEffect(CSPotionEffectRegistry.CURSED_FRENZY);
+
+            if (frenzy != null)
+            {
+                if (!entity.level().isClientSide())
+                {
+                    CSUtils.spawnHalberdWindmill(5, 5, 1.0F, 0.5F, 0.5F, 1, (LivingEntity) entity, entity.level(), 5, 1);
+                }
+            }
+        }
+
+        // Wrath
+        if (entity instanceof LivingEntity livingEntity)
+        {
+            var rage = entity.getEffect(CSPotionEffectRegistry.WRATHFUL);
+
+            if (rage != null)
+            {
+                entity.getData(FORGONE_RAGE);
+
+                if (livingEntity.hasData(FORGONE_RAGE))
+                {
+                    livingEntity.setData(FORGONE_RAGE, 0);
+                }
+            }
+        }
+
         /*
         if (entity instanceof LivingEntity livingEntity)
         {
@@ -317,15 +359,6 @@ public class ServerEvents {
                 }
             }
             */
-
-        // Cursed Frenzy
-        if (effect instanceof CursedFrenzyEffect)
-        {
-            if (!entity.level().isClientSide())
-            {
-                CSUtils.spawnHalberdWindmill(5, 5, 1.0F, 0.5F, 0.5F, 1, (LivingEntity) entity, entity.level(), 5, 1);
-            }
-        }
     }
 
     @SubscribeEvent

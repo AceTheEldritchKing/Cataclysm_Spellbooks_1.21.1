@@ -35,7 +35,7 @@ import top.theillusivec4.curios.api.client.CuriosRendererRegistry;
 public class CataclysmSpellbooks
 {
     public static final String MOD_ID = "cataclysm_spellbooks";
-    private static final Logger LOGGER = LogUtils.getLogger();
+    public static final Logger LOGGER = LogUtils.getLogger();
 
     public CataclysmSpellbooks(IEventBus modEventBus, ModContainer modContainer)
     {
@@ -45,6 +45,8 @@ public class CataclysmSpellbooks
 
         // Creative Tab
         CSCreativeModeTabs.register(modEventBus);
+        // Attachments
+        CSAttachmentRegistry.register(modEventBus);
         // Items
         ItemRegistries.register(modEventBus);
         // Attributes

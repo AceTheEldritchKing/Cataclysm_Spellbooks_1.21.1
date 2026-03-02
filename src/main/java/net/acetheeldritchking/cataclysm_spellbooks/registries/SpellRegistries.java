@@ -13,6 +13,7 @@ import net.acetheeldritchking.cataclysm_spellbooks.spells.holy.ConjureKoboldiato
 import net.acetheeldritchking.cataclysm_spellbooks.spells.holy.ConjureKoboletonSpell;
 import net.acetheeldritchking.cataclysm_spellbooks.spells.ice.ConjureThrallsSpell;
 import net.acetheeldritchking.cataclysm_spellbooks.spells.ice.CursedRushSpell;
+import net.acetheeldritchking.cataclysm_spellbooks.spells.ice.ForgoneRageSpell;
 import net.acetheeldritchking.cataclysm_spellbooks.spells.ice.MalevolentBattlefieldSpell;
 import net.acetheeldritchking.cataclysm_spellbooks.spells.nature.*;
 import net.neoforged.bus.api.IEventBus;
@@ -222,7 +223,7 @@ public class SpellRegistries {
     public static final Supplier<AbstractSpell> MALEVOLENT_BATTLEFIELD = registerSpell(new MalevolentBattlefieldSpell());
 
     // Forgone Rage (Apply Wrath effect to the user. As the user attacks, it fills a rage meter. Each level is an additional 10% extra damage)
-    //public static final Supplier<AbstractSpell> FORGONE_RAGE = registerSpell(new ForgoneRageSpell());
+    public static final Supplier<AbstractSpell> FORGONE_RAGE = registerSpell(new ForgoneRageSpell());
 
     // Conjure Thrall (Summons the ice undead warriors)
     public static final Supplier<AbstractSpell> CONJURE_THRALL = registerSpell(new ConjureThrallsSpell());
