@@ -9,7 +9,11 @@ import io.redspace.ironsspellbooks.api.registry.AttributeRegistry;
 //import net.acetheeldritchking.cataclysm_spellbooks.capabilities.wrath.PlayerWrath;
 //import net.acetheeldritchking.cataclysm_spellbooks.capabilities.wrath.PlayerWrathProvider;
 import net.acetheeldritchking.cataclysm_spellbooks.CataclysmSpellbooks;
+import net.acetheeldritchking.cataclysm_spellbooks.effects.potion.KingsWrathPotionEffect;
 import net.acetheeldritchking.cataclysm_spellbooks.effects.potion.WrathfulPotionEffect;
+import net.acetheeldritchking.cataclysm_spellbooks.entity.mobs.SummonedAptrgangr;
+import net.acetheeldritchking.cataclysm_spellbooks.entity.mobs.SummonedKoboldiator;
+import net.acetheeldritchking.cataclysm_spellbooks.entity.mobs.SummonedPhantomRemnant;
 import net.acetheeldritchking.cataclysm_spellbooks.util.CSConfig;
 import net.acetheeldritchking.cataclysm_spellbooks.effects.potion.AbyssalPredatorPotionEffect;
 import net.acetheeldritchking.cataclysm_spellbooks.effects.potion.CursedFrenzyEffect;
@@ -36,10 +40,12 @@ import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.ModList;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
+import net.neoforged.neoforge.event.entity.EntityMobGriefingEvent;
 import net.neoforged.neoforge.event.entity.living.*;
 import net.neoforged.neoforge.event.tick.EntityTickEvent;
 
 import static net.acetheeldritchking.cataclysm_spellbooks.registries.CSAttachmentRegistry.FORGONE_RAGE;
+import static net.acetheeldritchking.cataclysm_spellbooks.registries.CSAttachmentRegistry.KINGS_WRATH;
 
 @SuppressWarnings("unused")
 @EventBusSubscriber
@@ -140,12 +146,42 @@ public class ServerEvents {
                 }
             }
         }
+
+        // King's Wrath
+        if (entity instanceof LivingEntity attacker)
+        {
+            if (attacker.hasEffect(CSPotionEffectRegistry.KINGS_WRATH_EFFECT))
+            {
+                if (attacker instanceof Player player)
+                {
+                    player.getData(KINGS_WRATH);
+
+                    if (player.hasData(KINGS_WRATH))
+                    {
+                        float baseAmount = event.getOriginalDamage();
+                        float damageBonusPerLevel = KingsWrathPotionEffect.ATTACK_DAMAGE_PER_WRATH * player.getData(KINGS_WRATH);
+                        float bonusDamage = baseAmount * damageBonusPerLevel;
+                        float totalDamage = baseAmount + bonusDamage;
+
+                        event.setNewDamage(totalDamage);
+                    }
+
+                    player.level().playSound(null, player.getX(), player.getY(), player.getZ(), ModSounds.REMNANT_CHARGE_ROAR.get(), SoundSource.PLAYERS, 1.0F, 1.0F);
+                }
+            }
+        }
     }
 
     public static void setRageValue(LivingEntity entity, int val)
     {
         int newVal = Math.min(val, 4);
         entity.setData(FORGONE_RAGE, entity.getData(FORGONE_RAGE) + newVal);
+    }
+
+    public static void setWrathValue(LivingEntity entity, int val)
+    {
+        int newVal = Math.min(val, 4);
+        entity.setData(KINGS_WRATH, entity.getData(KINGS_WRATH) + newVal);
     }
 
     @SubscribeEvent
@@ -284,7 +320,7 @@ public class ServerEvents {
         LivingEntity entity = event.getEntity();
         Holder<MobEffect> effect = event.getEffectInstance().getEffect();
 
-        // Wrath
+        // Rage
         if (entity instanceof LivingEntity livingEntity)
         {
             var rage = entity.getEffect(CSPotionEffectRegistry.WRATHFUL);
@@ -296,6 +332,22 @@ public class ServerEvents {
                 if (livingEntity.hasData(FORGONE_RAGE))
                 {
                     livingEntity.setData(FORGONE_RAGE, 0);
+                }
+            }
+        }
+
+        // Wrath
+        if (entity instanceof LivingEntity livingEntity)
+        {
+            var rage = entity.getEffect(CSPotionEffectRegistry.KINGS_WRATH_EFFECT);
+
+            if (rage != null)
+            {
+                entity.getData(KINGS_WRATH);
+
+                if (livingEntity.hasData(KINGS_WRATH))
+                {
+                    livingEntity.setData(KINGS_WRATH, 0);
                 }
             }
         }
@@ -322,7 +374,7 @@ public class ServerEvents {
             }
         }
 
-        // Wrath
+        // Rage
         if (entity instanceof LivingEntity livingEntity)
         {
             var rage = entity.getEffect(CSPotionEffectRegistry.WRATHFUL);
@@ -334,6 +386,22 @@ public class ServerEvents {
                 if (livingEntity.hasData(FORGONE_RAGE))
                 {
                     livingEntity.setData(FORGONE_RAGE, 0);
+                }
+            }
+        }
+
+        // Wrath
+        if (entity instanceof LivingEntity livingEntity)
+        {
+            var rage = entity.getEffect(CSPotionEffectRegistry.KINGS_WRATH_EFFECT);
+
+            if (rage != null)
+            {
+                entity.getData(KINGS_WRATH);
+
+                if (livingEntity.hasData(KINGS_WRATH))
+                {
+                    livingEntity.setData(KINGS_WRATH, 0);
                 }
             }
         }
@@ -416,6 +484,37 @@ public class ServerEvents {
                     }
                 }
             }
+        }
+
+        // King's Wrath
+        if (entity instanceof LivingEntity attacker)
+        {
+            if (attacker.hasEffect(CSPotionEffectRegistry.KINGS_WRATH_EFFECT))
+            {
+                if (attacker instanceof Player player)
+                {
+                    player.getData(KINGS_WRATH);
+
+                    if (player.hasData(KINGS_WRATH))
+                    {
+                        if (player.getData(KINGS_WRATH) < 4)
+                        {
+                            setWrathValue(player, 1);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    @SubscribeEvent
+    public static void mobGriefingEvent(LivingDestroyBlockEvent event)
+    {
+        var entity = event.getEntity();
+
+        if (entity instanceof SummonedPhantomRemnant || entity instanceof SummonedKoboldiator || entity instanceof SummonedAptrgangr)
+        {
+            event.setCanceled(true);
         }
     }
 }

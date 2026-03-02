@@ -13,12 +13,14 @@ public class DesertSpellBook extends UniqueSpellBook {
         super(SpellDataRegistryHolder.of(
                 new SpellDataRegistryHolder(SpellRegistries.MONOLITH_CRASH, 5),
                 new SpellDataRegistryHolder(SpellRegistries.DESERT_WINDS, 3),
-                new SpellDataRegistryHolder(SpellRegistries.SANDSTORM, 5)
+                new SpellDataRegistryHolder(SpellRegistries.SANDSTORM, 3),
+                new SpellDataRegistryHolder(SpellRegistries.THOTHS_WITNESS, 1),
+                new SpellDataRegistryHolder(SpellRegistries.PHARAOHS_WRATH, 3)
         ), 7);
         withSpellbookAttributes(
-                new AttributeContainer(AttributeRegistry.MAX_MANA, 200, AttributeModifier.Operation.ADD_VALUE),
-                new AttributeContainer(AttributeRegistry.NATURE_SPELL_POWER, 0.20F, AttributeModifier.Operation.ADD_MULTIPLIED_BASE),
-                new AttributeContainer(AttributeRegistry.HOLY_SPELL_POWER, 0.10F, AttributeModifier.Operation.ADD_MULTIPLIED_BASE)
+                new AttributeContainer(AttributeRegistry.MAX_MANA, 300, AttributeModifier.Operation.ADD_VALUE),
+                new AttributeContainer(AttributeRegistry.NATURE_SPELL_POWER, 0.30F, AttributeModifier.Operation.ADD_MULTIPLIED_BASE),
+                new AttributeContainer(AttributeRegistry.HOLY_SPELL_POWER, 0.20F, AttributeModifier.Operation.ADD_MULTIPLIED_BASE)
         );
     }
 }

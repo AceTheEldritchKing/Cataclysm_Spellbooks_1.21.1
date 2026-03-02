@@ -21,5 +21,6 @@ public class ModSetup {
         event.put(CSEntityRegistry.SUMMONED_ELITE_DRAUGUR.get(), SummonedEliteDraugur.elite_draugr().build());
         event.put(CSEntityRegistry.SUMMONED_APTRGANGR.get(), SummonedAptrgangr.buildAttributes().build());
         event.put(CSEntityRegistry.SUMMONED_AMETHYST_CRAB.get(), SummonedAmethystCrab.buildAttributes().build());
+        event.put(CSEntityRegistry.PHANTOM_ANCIENT_REMNANT.get(), SummonedPhantomRemnant.buildAttributes().build());
     }
 }

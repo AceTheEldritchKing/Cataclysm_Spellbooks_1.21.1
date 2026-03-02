@@ -27,7 +27,7 @@ public class CSPotionEffectRegistry {
             MOB_EFFECTS.register("cursed_frenzy", CursedFrenzyEffect::new);
 
     public static final DeferredHolder<MobEffect, MobEffect> KINGS_WRATH_EFFECT =
-            MOB_EFFECTS.register("cursed_frenzy", CursedFrenzyEffect::new);
+            MOB_EFFECTS.register("kings_wrath", KingsWrathPotionEffect::new);
 
     public static void register(IEventBus eventBus)
     {

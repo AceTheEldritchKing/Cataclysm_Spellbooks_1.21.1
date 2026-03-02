@@ -1,0 +1,242 @@
+package net.acetheeldritchking.cataclysm_spellbooks.entity.mobs;
+
+import com.github.L_Ender.cataclysm.config.CMCommonConfig;
+import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.IABossMonsters.Ancient_Remnant.Ancient_Remnant_Entity;
+import com.github.L_Ender.cataclysm.init.ModParticle;
+import com.github.L_Ender.cataclysm.init.ModTag;
+import io.redspace.ironsspellbooks.capabilities.magic.MagicManager;
+import io.redspace.ironsspellbooks.entity.mobs.IMagicSummon;
+import io.redspace.ironsspellbooks.entity.mobs.goals.*;
+import io.redspace.ironsspellbooks.util.OwnerHelper;
+import net.acetheeldritchking.cataclysm_spellbooks.registries.CSEntityRegistry;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.*;
+import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
+import net.minecraft.world.entity.ai.goal.RandomStrollGoal;
+import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
+import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
+import net.minecraft.world.entity.monster.Monster;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.vehicle.DismountHelper;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.Vec3;
+import net.neoforged.neoforge.common.NeoForge;
+import net.neoforged.neoforge.event.EventHooks;
+import net.neoforged.neoforge.event.entity.EntityMobGriefingEvent;
+
+import java.util.UUID;
+
+public class SummonedPhantomRemnant extends Ancient_Remnant_Entity implements IMagicSummon {
+    protected LivingEntity cachedSummoner;
+    protected UUID summonerUUID;
+
+    public SummonedPhantomRemnant(EntityType entity, Level world) {
+        super(entity, world);
+        xpReward = 0;
+    }
+
+    public SummonedPhantomRemnant(Level level, LivingEntity owner) {
+        this(CSEntityRegistry.PHANTOM_ANCIENT_REMNANT.get(), level);
+    }
+
+    @Override
+    protected void registerGoals() {
+
+        this.goalSelector.addGoal(3, new GenericFollowOwnerGoal(this, this::getSummoner, 1.0f, 10, 2, false, 50));
+        this.goalSelector.addGoal(7, new LookAtPlayerGoal(this, Player.class, 8.0F, 1.0F));
+        this.goalSelector.addGoal(8, new LookAtPlayerGoal(this, Mob.class, 9.0F));
+        this.goalSelector.addGoal(5, new RandomStrollGoal(this, 1.0, 80));
+
+        this.targetSelector.addGoal(1, new GenericOwnerHurtByTargetGoal(this, this::getSummoner));
+        this.targetSelector.addGoal(2, new GenericOwnerHurtTargetGoal(this, this::getSummoner));
+        this.targetSelector.addGoal(3, new GenericCopyOwnerTargetGoal(this, this::getSummoner));
+        this.targetSelector.addGoal(4, (new GenericHurtByTargetGoal(this, (entity) -> entity == getSummoner())).setAlertOthers());
+        super.registerGoals();
+
+        this.goalSelector.getAvailableGoals().removeIf(goal ->
+                goal.getGoal() instanceof HurtByTargetGoal || goal.getGoal() instanceof NearestAttackableTargetGoal
+        );
+    }
+
+    // shut yo bitch ass up
+    @Override
+    protected boolean canPlayMusic() {
+        return false;
+    }
+
+    // Attacks and Death
+    public boolean hurt(DamageSource pSource, float pAmount) {
+        return this.shouldIgnoreDamage(pSource) ? false : super.hurt(pSource, pAmount);
+    }
+
+    @Override
+    public void die(DamageSource pDamageSource) {
+        this.onDeathHelper();
+        super.die(pDamageSource);
+    }
+
+    @Override
+    protected boolean shouldDropLoot() {
+        return false;
+    }
+
+    @Override
+    public void onUnSummon() {
+        if (!level().isClientSide)
+        {
+            MagicManager.spawnParticles(level(), ModParticle.DESERT_GLYPH.get(),
+                    getX(), getY(), getZ(),
+                    25,
+                    level().random.nextGaussian() * 0.007D,
+                    level().random.nextGaussian() * 0.009D,
+                    level().random.nextGaussian() * 0.007D,
+                    0.1, false);
+            discard();
+        }
+    }
+
+    @Override
+    public boolean isAlliedTo(Entity entityIn) {
+        //return super.isAlliedTo(entityIn) || this.isAlliedHelper(entityIn);
+        if (entityIn == this)
+        {
+            return true;
+        }
+        else if (entityIn == getSummoner() || this.isAlliedHelper(entityIn))
+        {
+            return true;
+        }
+        else if (getSummoner() != null && entityIn.getType().is(ModTag.TEAM_ANCIENT_REMNANT))
+        {
+            return false;
+        }
+        else
+        {
+            return super.isAlliedTo(entityIn) || this.isAlliedHelper(entityIn);
+        }
+    }
+
+    public static AttributeSupplier.Builder buildAttributes() {
+        return Monster.createMonsterAttributes()
+                .add(Attributes.FOLLOW_RANGE, 70.0D)
+                .add(Attributes.MOVEMENT_SPEED, 0.28F)
+                .add(Attributes.ATTACK_DAMAGE, 25)
+                .add(Attributes.MAX_HEALTH, 350)
+                .add(Attributes.ARMOR, 15)
+                .add(Attributes.ARMOR_TOUGHNESS, 4.0)
+                .add(Attributes.STEP_HEIGHT, 1.25F)
+                .add(Attributes.KNOCKBACK_RESISTANCE, 1.0);
+    }
+
+    // Rideable
+    @Override
+    public InteractionResult mobInteract(Player pPlayer, InteractionHand pHand) {
+        if (pPlayer == getSummoner())
+        {
+            pPlayer.startRiding(this);
+            return InteractionResult.SUCCESS;
+        }
+        return super.mobInteract(pPlayer, pHand);
+    }
+
+    @Override
+    protected boolean canRide(Entity p_31508_) {
+        return true;
+    }
+
+    @Override
+    public boolean isVehicle() {
+        return true;
+    }
+
+    public boolean canBeControlledByRider()
+    {
+        return this.getControllingPassenger() instanceof LivingEntity;
+    }
+
+    @Override
+    public @org.jetbrains.annotations.Nullable LivingEntity getControllingPassenger() {
+        return (LivingEntity) this.getFirstPassenger();
+    }
+
+    public void travel(Vec3 pTravelVector) {
+        if (this.isAlive()) {
+            if (this.isVehicle() && this.canBeControlledByRider()) {
+                LivingEntity livingentity = (LivingEntity)this.getControllingPassenger();
+                this.setYRot(livingentity.getYRot());
+                this.yRotO = this.getYRot();
+                this.setXRot(livingentity.getXRot() * 0.5F);
+                this.setRot(this.getYRot(), this.getXRot());
+                this.yBodyRot = this.getYRot();
+                this.yHeadRot = this.yBodyRot;
+                float f = livingentity.xxa * 0.5F;
+                float f1 = livingentity.zza;
+                if (f1 <= 0.0F) {
+                    f1 *= 0.25F;
+                }
+
+                if (this.isControlledByLocalInstance()) {
+                    this.setSpeed((float)this.getAttributeValue(Attributes.MOVEMENT_SPEED));
+                    super.travel(new Vec3(f, pTravelVector.y, f1));
+                } else if (livingentity instanceof Player) {
+                    this.setDeltaMovement(Vec3.ZERO);
+                }
+
+                this.tryCheckInsideBlocks();
+            } else {
+                super.travel(pTravelVector);
+            }
+        }
+    }
+
+    @Override
+    public Vec3 getDismountLocationForPassenger(LivingEntity pLivingEntity) {
+        Direction direction = this.getMotionDirection();
+        if (direction.getAxis() == Direction.Axis.Y) {
+            return super.getDismountLocationForPassenger(pLivingEntity);
+        } else {
+            int[][] aint = DismountHelper.offsetsForDirection(direction);
+            BlockPos blockpos = this.blockPosition();
+            BlockPos.MutableBlockPos blockpos$mutable = new BlockPos.MutableBlockPos();
+
+            for (Pose pose : pLivingEntity.getDismountPoses()) {
+                AABB axisalignedbb = pLivingEntity.getLocalBoundsForPose(pose);
+
+                for (int[] aint1 : aint) {
+                    blockpos$mutable.set(blockpos.getX() + aint1[0], blockpos.getY(), blockpos.getZ() + aint1[1]);
+                    double d0 = this.level().getBlockFloorHeight(blockpos$mutable);
+                    if (DismountHelper.isBlockFloorValid(d0)) {
+                        Vec3 vec3 = Vec3.upFromBottomCenterOf(blockpos$mutable, d0);
+                        if (DismountHelper.canDismountTo(this.level(), pLivingEntity, axisalignedbb.move(vec3))) {
+                            pLivingEntity.setPose(pose);
+                            return vec3;
+                        }
+                    }
+                }
+            }
+
+            return super.getDismountLocationForPassenger(pLivingEntity);
+        }
+    }
+
+    // NBT
+    @Override
+    public void readAdditionalSaveData(CompoundTag pCompound) {
+        super.readAdditionalSaveData(pCompound);
+        this.summonerUUID = OwnerHelper.deserializeOwner(pCompound);
+    }
+
+    @Override
+    public void addAdditionalSaveData(CompoundTag pCompound) {
+        super.addAdditionalSaveData(pCompound);
+        OwnerHelper.serializeOwner(pCompound, summonerUUID);
+    }
+}

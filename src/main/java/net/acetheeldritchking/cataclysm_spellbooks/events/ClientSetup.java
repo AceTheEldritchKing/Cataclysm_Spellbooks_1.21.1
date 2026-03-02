@@ -2,6 +2,7 @@ package net.acetheeldritchking.cataclysm_spellbooks.events;
 
 import com.github.L_Ender.cataclysm.client.render.entity.*;
 import net.acetheeldritchking.cataclysm_spellbooks.CataclysmSpellbooks;
+import net.acetheeldritchking.cataclysm_spellbooks.entity.render.mobs.phantom_remnant.PhantomAncientRemnantRenderer;
 import net.acetheeldritchking.cataclysm_spellbooks.entity.render.spells.HellishBladeRenderer;
 import net.acetheeldritchking.cataclysm_spellbooks.entity.render.spells.InfernalBladeRenderer;
 import net.acetheeldritchking.cataclysm_spellbooks.registries.CSEntityRegistry;
@@ -28,5 +29,6 @@ public class ClientSetup {
         event.registerEntityRenderer(CSEntityRegistry.INFERNAL_BLADE_PROJECTILE.get(), InfernalBladeRenderer::new);
         event.registerEntityRenderer(CSEntityRegistry.HELLISH_BLADE_PROJECTILE.get(), HellishBladeRenderer::new);
         event.registerEntityRenderer(CSEntityRegistry.BLAZING_AOE_ENTITY.get(), NoopRenderer::new);
+        event.registerEntityRenderer(CSEntityRegistry.PHANTOM_ANCIENT_REMNANT.get(), PhantomAncientRemnantRenderer::new);
     }
 }

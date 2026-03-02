@@ -50,7 +50,7 @@ public class KingsWrathPotionEffect extends MagicMobEffect {
 
     @Override
     public boolean shouldApplyEffectTickThisTick(int duration, int amplifier) {
-        return duration % 20 == 0;
+        return duration % 2 == 0;
     }
 
     @Override

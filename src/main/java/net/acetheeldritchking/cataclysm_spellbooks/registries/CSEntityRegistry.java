@@ -132,6 +132,15 @@ public class CSEntityRegistry {
                             ResourceLocation.fromNamespaceAndPath(CataclysmSpellbooks.MOD_ID, "summoned_amethyst_crab").toString()
                     ));
 
+    // Phantom Ancient Remnant
+    public static final DeferredHolder<EntityType<?>, EntityType<SummonedPhantomRemnant>> PHANTOM_ANCIENT_REMNANT =
+            ENTITIES.register("phantom_ancient_remnant", () -> EntityType.Builder.<SummonedPhantomRemnant>of
+                            (SummonedPhantomRemnant::new, MobCategory.MONSTER).
+                    sized(5f, 5f)
+                    .build(
+                            ResourceLocation.fromNamespaceAndPath(CataclysmSpellbooks.MOD_ID, "phantom_ancient_remnant").toString()
+                    ));
+
     public static void register(IEventBus eventBus)
     {
         ENTITIES.register(eventBus);

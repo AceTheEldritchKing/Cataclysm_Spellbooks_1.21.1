@@ -64,6 +64,8 @@
     "effect.cataclysm_spellbooks.clawdian_timer.description": "The amount of time a Clawdian remains in the world.",
     "effect.cataclysm_spellbooks.immunity_effect": "Immunity",
     "effect.cataclysm_spellbooks.immunity_effect.description": "Makes you immune to damage.",
+    "effect.cataclysm_spellbooks.kings_wrath": "King's Wrath",
+    "effect.cataclysm_spellbooks.kings_wrath.description": "The player is filled with wrath that increases their damage when they are hit.",
 
 
     "school.cataclysm_spellbooks.abyssal": "Abyssal",
